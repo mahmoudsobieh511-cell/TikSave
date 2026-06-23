@@ -1,0 +1,7 @@
+{
+  "name": "CORA Store Server",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bullseye",
+  "updateContentCommand": "npm install",
+  "postStartCommand": "node server.js &",
+  "forwardPorts": [3000]
+}
