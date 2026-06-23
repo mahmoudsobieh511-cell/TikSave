@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم الاحترافية - CORA Store</title>
+    <style>
+        body { background-color: #050515; color: #ffffff; font-family: sans-serif; margin: 0; padding: 0; }
+        .admin-box { max-width: 600px; margin: 40px auto; background: rgba(10, 10, 30, 0.95); padding: 30px; border-radius: 12px; border: 2px solid #00ffcc; box-shadow: 0 0 25px rgba(0, 255, 252, 0.4); }
+        .input-group { margin-bottom: 18px; }
+        .input-group label { display: block; margin-bottom: 8px; color: #00ffcc; font-weight: bold; }
+        .input-group input, .input-group textarea, .input-group select { width: 100%; padding: 12px; background: #111125; border: 1px solid #333355; color: #fff; border-radius: 6px; box-sizing: border-box; }
+        .btn-post { width: 100%; padding: 14px; background: #00ffcc; color: #000; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 16px; box-shadow: 0 0 15px rgba(0, 255, 252, 0.4); }
+    </style>
+</head>
+<body>
+    <div class="admin-box">
+        <h2 style="text-align: center; margin-bottom: 25px; border-bottom: 1px solid #333355; padding-bottom: 10px;">إنشاء ونشر منشور جديد 🎬</h2>
+        <form id="advancedPostForm">
+            <div class="input-group"><label>اسم الكتاب / الرواية:</label><input type="text" id="postTitle" required></div>
+            <div class="input-group">
+                <label>تحديد قسم النشر بالمتجر:</label>
+                <select id="postCategory" required>
+                    <option value="novels">📚 قسم الـروايــات</option>
+                    <option value="stories">📖 قسم الـقـصـص</option>
+                    <option value="kids">🎨 قسم تـعـلـيـم الأطـفـال</option>
+                </select>
+            </div>
+            <div class="input-group"><label>السعر (EGP):</label><input type="number" id="postPrice" required></div>
+            <div class="input-group"><label>رابط صورة الغلاف (URL):</label><input type="url" id="postImage"></div>
+            <div class="input-group"><label>وصف ومحتوى الكتاب:</label><textarea id="postContent" rows="4" required></textarea></div>
+            <button type="submit" class="btn-post">إرسال ونشر الكتاب فوراً 🚀</button>
+        </form>
+        <p style="text-align: center; margin-top: 25px;"><a href="index.html" style="color: #00ffcc; text-decoration: none;">⬅️ العودة إلى المتجر الرئيسي</a></p>
+    </div>
+
+    <script>
+        document.getElementById('advancedPostForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const name = document.getElementById('postTitle').value;
+            const category = document.getElementById('postCategory').value;
+            const price = document.getElementById('postPrice').value;
+            const image = document.getElementById('postImage').value || 'https://picsum.photos/400/500';
+            const description = document.getElementById('postContent').value;
+            try {
+                const response = await fetch('http://localhost:3000/api/products', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, category, price, image, description })
+                });
+                if(response.ok) { alert(`تم النشر بنجاح! 🎉`); document.getElementById('advancedPostForm').reset(); }
+            } catch (error) { alert('تأكد من تشغيل الشاشة السوداء!'); }
+        });
+    </script>
+</body>
+</html>
